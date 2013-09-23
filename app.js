@@ -1,13 +1,12 @@
-
+var Sitemap = require('./controllers/sitemapcontroller').SitemapController;
 /**
  * Module dependencies.
  */
-
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
+var express   = require('express'),
+  routes    = require('./routes'),
+  user      = require('./routes/user'),
+  http      = require('http'),
+  path      = require('path');
 
 var app = express();
 
@@ -24,13 +23,24 @@ app.use(require('less-middleware')({ src: __dirname + '/public' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
 
 app.get('/', routes.index);
-app.get('/users', user.list);
+app.post('/',  function (req, res) {
 
-http.createServer(app).listen(app.get('port'), function(){
+  var domain  = req.param('domain'),
+    sitemap = new Sitemap();
+
+    sitemap.generate(domain);
+
+  res.render('index.jade', {
+    title      : domain
+  });
+
+});
+
+http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
 });

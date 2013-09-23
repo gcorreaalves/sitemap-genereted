@@ -1,5 +1,7 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1= "Gerador de sitemap"
+  form(action="#", method="post")
+   input(type="text", name="domain", placeholder="www.domain.com") 
+   input(type="submit", value="Gerar Sitemap")
