@@ -1,11 +1,45 @@
-var Crawler = require("simplecrawler").Crawler,
-  xmlbuild  = require('xmlbuilder'),
-  fs        = require('fs');
+var Crawler    = require("simplecrawler").Crawler,
+  xmlbuild     = require('xmlbuilder'),
+  fs           = require('fs'),
+  mkdirp       = require('mkdirp');
+
+function mkdir_p(path, mode, callback, position) {
+  mode     = mode || 0777;
+  position = position || 0;
+  parts    = require('path').normalize(path).split('/');
+
+  if (position >= parts.length) {
+    if (callback) {
+      return callback();
+    } else {
+      return true;
+    }
+  }
+  var directory = parts.slice(0, position + 1).join('/');
+  fs.stat(directory, function (err) {
+    if (err === null) {
+      mkdir_p(path, mode, callback, position + 1);
+    } else {
+      fs.mkdir(directory, mode, function (err) {
+        if (err) {
+          if (callback) {
+            return callback(err);
+          } else {
+            throw err;
+          }
+        } else {
+          mkdir_p(path, mode, callback, position + 1);
+        }
+      });
+    }
+  });
+}
 
 SitemapController = function () {
-  var sort      = false,
+  var sort    = false,
     segmented = false,
-    limited   = 100;
+    limited   = 100,
+    domain    = null;
 };
 SitemapController.prototype.setup = function (config) {
   this.sort      = config.sort;
@@ -13,6 +47,9 @@ SitemapController.prototype.setup = function (config) {
   this.limited   = config.limited;
 };
 SitemapController.prototype.generate = function (domain) {
+
+  this.domain = domain;
+
   var that    = this,
     crawler    = new Crawler(domain),
     urls       = [],
@@ -70,15 +107,24 @@ SitemapController.prototype.BuildXML = function (urlsVetor) {
   }
 
   xmlFileOutput += doc.toString({ pretty: true });
-   return xmlFileOutput;
+    return xmlFileOutput;
 
 };
 SitemapController.prototype.OutputSiteMap = function (sitemapXML) {
-  fs.writeFile("sitemap.xml", sitemapXML, function (err) {
+
+  var fullpath = "public/download/" + this.domain;
+
+  mkdirp(fullpath, function (err) {
     if (err) {
-      console.log(err);
+      console.error(err);
     } else {
-      console.log("The file was saved!");
+      fs.writeFile(fullpath + '/' + "sitemap.xml", sitemapXML, function (err) {
+        if (err) {
+         console.log(err);
+        } else {
+            console.log("The file was saved!");
+        }
+      });
     }
   });
 };

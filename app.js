@@ -33,12 +33,17 @@ app.post('/',  function (req, res) {
   var domain  = req.param('domain'),
     sitemap = new Sitemap();
 
-    sitemap.generate(domain);
+  sitemap.generate(domain);
 
   res.render('index.jade', {
     title      : domain
   });
+});
 
+app.get('/download/:domain/sitemap.xml', function (req, res) {
+  var url = req.url;
+  var file = __dirname + '/public' + url;
+  res.download(file);
 });
 
 http.createServer(app).listen(app.get('port'), function () {
