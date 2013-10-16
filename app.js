@@ -31,7 +31,7 @@ app.get('/', routes.index);
 app.post('/',  function (req, res) {
 
   var domain  = req.param('domain'),
-    sitemap = new Sitemap();
+    sitemap = new Sitemap(true);
 
   sitemap.generate(domain);
 

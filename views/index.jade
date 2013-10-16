@@ -3,5 +3,13 @@ extends layout
 block content
   h1= "Gerador de sitemap"
   form(action="#", method="post")
-   input(type="text", name="domain", placeholder="www.domain.com") 
+   label
+     input(type="text", name="domain", placeholder="www.domain.com") 
+   br
+   label(for='ciclo') Gerar Ordenado?  
+     input(type="checkbox", name="sort", value="true") 
+   br
+   label(for='ciclo') Segmentar?  
+     input(type="checkbox", name="segmented", value="true") 
+   br
    input(type="submit", value="Gerar Sitemap")

@@ -3,48 +3,10 @@ var Crawler    = require("simplecrawler").Crawler,
   fs           = require('fs'),
   mkdirp       = require('mkdirp');
 
-function mkdir_p(path, mode, callback, position) {
-  mode     = mode || 0777;
-  position = position || 0;
-  parts    = require('path').normalize(path).split('/');
-
-  if (position >= parts.length) {
-    if (callback) {
-      return callback();
-    } else {
-      return true;
-    }
-  }
-  var directory = parts.slice(0, position + 1).join('/');
-  fs.stat(directory, function (err) {
-    if (err === null) {
-      mkdir_p(path, mode, callback, position + 1);
-    } else {
-      fs.mkdir(directory, mode, function (err) {
-        if (err) {
-          if (callback) {
-            return callback(err);
-          } else {
-            throw err;
-          }
-        } else {
-          mkdir_p(path, mode, callback, position + 1);
-        }
-      });
-    }
-  });
-}
-
-SitemapController = function () {
-  var sort    = false,
-    segmented = false,
-    limited   = 100,
-    domain    = null;
-};
-SitemapController.prototype.setup = function (config) {
-  this.sort      = config.sort;
-  this.segmented = config.segmented;
-  this.limited   = config.limited;
+SitemapController = function (seg, lim) {
+  this.segmented = seg || false;
+  this.limited   = lim || 100;
+  this.domain    = null;
 };
 SitemapController.prototype.generate = function (domain) {
 
@@ -69,8 +31,6 @@ SitemapController.prototype.generate = function (domain) {
   crawler.on("fetchcomplete", function (queueItem, responseBuffer, response) {
     if (queueItem.stateData.contentType.indexOf("text/html") != -1 && (queueItem.domain == crawler.domain)) {
       urls.push(queueItem.url);
-      console.log(queueItem.url);
-      //console.log(queueItem.path);
     }
   });
   crawler.start();
@@ -79,21 +39,62 @@ SitemapController.prototype.generate = function (domain) {
     console.log(urls.length + " urls found!");
 
     sitemap = that.sortURLs(urls);
-    /*if (that.segmented) {
-      sitemap = that.segmented(urls);
-    }*/
 
-    siteMapXML = that.BuildXML(sitemap);
+    if (that.segmented === true) {
+      var objSeg = that.segmental(sitemap), objRoot = [], objSiteMap = [];
+      console.log(objSeg);   
+      for (var key in objSeg){
+        if (objSeg[key].length >= 2) {
+          siteMapXML = that.BuildXML(objSeg[key]); 
+          that.OutputSiteMap(siteMapXML, key);
+          objSiteMap.push("sitemap-" + key + ".xml");
+        }else{
+          objRoot.push(objSeg[key][0]);
+        }                
+      }
+      siteMapXML = that.BuildXML(objRoot);  
+      that.OutputSiteMap(siteMapXML, null);
+      objSiteMap.push("sitemap.xml");
 
-    that.OutputSiteMap(siteMapXML);
+      siteMapXML = that.BuildXML(objSiteMap); 
+      that.OutputSiteMap(siteMapXML, "index");      
+    } else {
+      siteMapXML = that.BuildXML(sitemap);
+      that.OutputSiteMap(siteMapXML, null);
+    }
 
   });
 };
 SitemapController.prototype.sortURLs = function (urlsVetor) {
   return urlsVetor.sort();
+  //return urlsVetor;
 };
-SitemapController.prototype.segmented = function (urlsVetor) {
-  // TODO: segmentar vetor...
+SitemapController.prototype.segmental = function (urlsVetor) {
+  var directory      = "",
+    urlSplited       = [],
+    objSegemented    = {},
+    currentDirectory = '',
+    subVetorURLS     = [],
+    hasExtension     = false;
+  for (var i = 0, size = urlsVetor.length; i < size; i++) {
+    urlSplited = urlsVetor[i].split('/');    
+    hasExtension = /[.]/g.test(urlSplited[3]);
+    if (urlSplited.length > 4 || !(hasExtension)) {
+      directory = urlSplited[3];
+    } else {
+      directory = 'root';
+    }
+    if (currentDirectory !== directory){
+     subVetorURLS = [];       
+    }
+    
+    currentDirectory = directory;
+    subVetorURLS.push(urlsVetor[i]);
+    objSegemented[currentDirectory] = subVetorURLS;
+  }
+
+  return objSegemented;
+
 };
 SitemapController.prototype.BuildXML = function (urlsVetor) {
   var xmlFileOutput = '<?xml version="1.0" encoding="UTF-8"?>\n',
@@ -107,22 +108,23 @@ SitemapController.prototype.BuildXML = function (urlsVetor) {
   }
 
   xmlFileOutput += doc.toString({ pretty: true });
-    return xmlFileOutput;
+  return xmlFileOutput;
 
 };
-SitemapController.prototype.OutputSiteMap = function (sitemapXML) {
+SitemapController.prototype.OutputSiteMap = function (sitemapXML, fileName) {
 
-  var fullpath = "public/download/" + this.domain;
+  var fullpath    = "public/download/" + this.domain,
+    finalFileName = (fileName) ? "-" + fileName : '';
 
   mkdirp(fullpath, function (err) {
     if (err) {
       console.error(err);
     } else {
-      fs.writeFile(fullpath + '/' + "sitemap.xml", sitemapXML, function (err) {
+      fs.writeFile(fullpath + '/' + "sitemap" + finalFileName + ".xml", sitemapXML, function (err) {
         if (err) {
-         console.log(err);
+          console.log(err);
         } else {
-            console.log("The file was saved!");
+          console.log("The file was saved!");
         }
       });
     }
