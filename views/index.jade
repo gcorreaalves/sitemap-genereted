@@ -1,15 +1,46 @@
 extends layout
 
 block content
-  h1= "Gerador de sitemap"
+  h2 Sitemap
+  h3 O que é Sitemap?
+  p.
+    Sitemap é uma forma fácil para os webmasters de informar os mecanismos de pesquisa sobre seus sites disponíveis para indexação. Em sua composição mais simples, um Sitemap é um arquivo XML que relaciona os URLS de um site junto com metadados adicionais sobre cada URL (quando ele foi atualizado pela última vez; com que freqüência ele é alterado; qual a sua importância em relação a outros URLs no site) para que os mecanismos de pesquisas possam indexar o site de maneira mais inteligente.
+
+  h3 Como usar
+  div(class="steps")
+    ul(class="row")
+      li(class="col-md-3")
+        h4 Gere seu sitemap
+        p.
+          Você pode gerar  de diversas formas manualmente, utilizando um software ou uma aplicação web como a nossa localizada abaixo.
+      li(class="col-md-3")
+        h4 Publique no seu site
+        p.
+          Faça o upload do seu arquivo sitemap para o seu servidor. De preferência para o diretório raiz do seu site.
+      li(class="col-md-3")
+        h4 Submeta ao Google
+        p.
+          Crie uma conta do Google e utilize a Ferramenta Webmaster do Google.
+      li(class="col-md-3")
+        h4 Realize uma verificação
+
+  h2 Gerador de sitemap
   form(action="#", method="post")
-   label
-     input(type="text", name="domain", placeholder="www.domain.com") 
-   br
-   label(for='ciclo') Gerar Ordenado?  
+    div(class="row")
+      div(class="col-md-6")
+        label Insira a URL
+          br
+          input(type="text", name="domain", placeholder="www.domain.com") 
+      div(class="col-md-6")
+        label Frequência de Mudança
+          br
+          select
+            option 1
+            option 2
+    label(for='ciclo') Gerar Ordenado?  
      input(type="checkbox", name="sort", value="true") 
-   br
-   label(for='ciclo') Segmentar?  
+    br
+    label(for='ciclo') Segmentar?  
      input(type="checkbox", name="segmented", value="true") 
-   br
-   input(type="submit", value="Gerar Sitemap")
+    br
+    input(type="submit", value="Gerar Sitemap")

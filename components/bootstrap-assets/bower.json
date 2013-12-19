@@ -1,0 +1,21 @@
+{
+  "name"       : "bootstrap-assets",
+  "version"    : "3.0.3",
+  "repository" : {
+    "type" : "git",
+    "url"  : "git://github.com/srigi/html-bootstrap-assets.git"
+  },
+
+  "main": [
+    "./css/bootstrap.css",
+    "./js/bootstrap.js",
+    "./fonts/glyphicons-halflings-regular.eot",
+    "./fonts/glyphicons-halflings-regular.svg",
+    "./fonts/glyphicons-halflings-regular.ttf",
+    "./fonts/glyphicons-halflings-regular.woff"
+  ],	
+
+  "dependencies": {
+    "jquery": ">= 1.9.0"
+  }
+}
