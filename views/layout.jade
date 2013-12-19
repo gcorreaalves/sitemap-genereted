@@ -3,15 +3,35 @@ html
   head
     title= 'Gerador de sitemap'
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/components/bootstrap-assets/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/components/bootstrap-assets/css/bootstrap.css')    
+    script(src="/components/jquery/jquery.min.js")  
+    script
+      $(function() { 
+        $('.checkbox-fake').click(function(){
+            var _this = $(this),
+                _parent = _this.parent(),
+                _checkbox = _parent.find('input[type="checkbox"]');
+            
+            _parent.find('.input-checkbox').toggleClass('input-checkbox-checked');
+            _checkbox.attr("checked", !_checkbox.attr("checked"));
+        })
+      })
+
   body
-    div(class="container")
-      header
-        nav
-          ul
-            li
-             h1 SiteMap Segmentado
-            li Gere seu sitemap grátis...
-            li ...nos formatos xml e html...
-            li ...ordenado e segmentado!
-      block content
+    div(class='container')
+      div(id='top')
+        header
+          nav
+            ul(class='clearfix list-unstyled')
+              li
+               h1 SiteMap Segmentado
+              li(class="first-li") Gere seu sitemap grátis...
+              li(class="second-li") ...nos formatos xml e html...
+              li(class="third-li") ...ordenado e segmentado!
+    
+    div(id='content')
+      div(class='container')
+        block content
+
+    div(id='footer', class='container')
+      p(class='text-center') 2013 Copyright - Sitemap - Todos os direitos reservados.

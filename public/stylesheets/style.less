@@ -1,8 +1,143 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@font-face {
+    font-family: 'cuprumffuregular';
+    src: url('../fonts/cuprum.eot');
+    src: url('../fonts/cuprum.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/cuprum.woff') format('woff'),
+         url('../fonts/cuprum.ttf') format('truetype'),
+         url('../fonts/cuprum.svg#cuprumffuregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
 
-a {
-  color: #00B7FF;
+@orange: #fb9a28;
+@purple: #da5ae2;
+@blue: #1cc3cd;
+@limon: #66e63e;
+@gray: #606060;
+@white: #fff;
+
+body {
+	background: @orange!important;
+}
+h1, h2, h3, h4, h5, h6{
+	font-family: 'cuprumffuregular', "Helvetica Neue",Helvetica,Arial,sans-serif!important;
+}
+#top{
+	height: auto;
+	color:@white;
+	text-align: center;
+	font-size: 16px;
+	h1{
+		font-size: 30px;
+		margin: 0;
+	}
+	ul{
+		display: table;
+		margin-bottom: 0;
+		li{
+			width: 25%;
+			display: table-cell;
+			height: auto;
+			vertical-align: middle;
+			font-weight: bold;
+			font-family: Arial,sans-serif;
+			padding: 20px 0;
+			line-height: 30px;
+		}
+	}
+	.first-li{
+		background: @purple;
+	}
+	.second-li{
+		background: @blue;
+	}
+	.third-li{
+		background: @limon;
+	}
+}
+#content{
+	width: 100%;
+	background: @white;	
+	padding-bottom: 30px;
+	h2, h3{
+		color: @orange;
+		padding: 10px 0;
+	}
+	p{
+		color: @gray;
+		line-height: 20px;
+	}
+	.steps{
+		ul{
+			margin:0;
+		}
+		li{
+			background: @orange;
+			color:@white;
+			padding:10px 20px 10px 30px;
+			border-right: 2px solid @white;
+			height: 185px;
+			position: relative;
+			h4{
+				font-family: Arial,sans-serif;
+			}
+			p{
+				color: @white;
+			}
+			.arrow{
+				width: 22px;
+				height: 48px;
+				position: absolute;
+				top: 62px;
+				right:-22px;				
+				z-index: 2;
+				background: url('../images/arrow.png') no-repeat;
+			}
+		}	
+	}
+	.form-sitemap{
+		.row{
+			margin-top:15px;
+			margin-bottom:15px;
+		}		
+		form{
+			label{
+				width: 100%;
+				color:@gray;
+				font-size: 15px;
+			}
+			input.domain, select{
+				width: 100%;
+				border: 1px solid @orange;
+				padding:10px 5px;
+				margin-top: 10px;
+			}
+			input[type='checkbox']{
+				visibility: hidden;
+				position: absolute;
+				left: -9999px;
+			}
+			.input-checkbox{
+				width: 26px;
+				height: 23px;
+				display: inline-block;
+				background: url('../images/checkbox.png') no-repeat bottom left;
+				margin-right: 5px;
+				margin-bottom: -6px;
+			}
+			.checkbox-fake{				
+				cursor: pointer;
+			}
+			.input-checkbox-checked{
+				background: url('../images/checkbox.png') no-repeat top left;
+			}
+		}
+	}
+}
+#footer{
+	font-family: Arial,sans-serif;
+	font-size: 12px;
+	color:@white;
+	padding:20px 0;
 }

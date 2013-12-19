@@ -1,7 +1,132 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+@font-face {
+  font-family: 'cuprumffuregular';
+  src: url('../fonts/cuprum.eot');
+  src: url('../fonts/cuprum.eot?#iefix') format('embedded-opentype'), url('../fonts/cuprum.woff') format('woff'), url('../fonts/cuprum.ttf') format('truetype'), url('../fonts/cuprum.svg#cuprumffuregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
-a {
-  color: #00B7FF;
+body {
+  background: #fb9a28 !important;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'cuprumffuregular', "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+#top {
+  height: auto;
+  color: #ffffff;
+  text-align: center;
+  font-size: 16px;
+}
+#top h1 {
+  font-size: 30px;
+  margin: 0;
+}
+#top ul {
+  display: table;
+  margin-bottom: 0;
+}
+#top ul li {
+  width: 25%;
+  display: table-cell;
+  height: auto;
+  vertical-align: middle;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  padding: 20px 0;
+  line-height: 30px;
+}
+#top .first-li {
+  background: #da5ae2;
+}
+#top .second-li {
+  background: #1cc3cd;
+}
+#top .third-li {
+  background: #66e63e;
+}
+#content {
+  width: 100%;
+  background: #ffffff;
+  padding-bottom: 30px;
+}
+#content h2,
+#content h3 {
+  color: #fb9a28;
+  padding: 10px 0;
+}
+#content p {
+  color: #606060;
+  line-height: 20px;
+}
+#content .steps ul {
+  margin: 0;
+}
+#content .steps li {
+  background: #fb9a28;
+  color: #ffffff;
+  padding: 10px 20px 10px 30px;
+  border-right: 2px solid #ffffff;
+  height: 185px;
+  position: relative;
+}
+#content .steps li h4 {
+  font-family: Arial, sans-serif;
+}
+#content .steps li p {
+  color: #ffffff;
+}
+#content .steps li .arrow {
+  width: 22px;
+  height: 48px;
+  position: absolute;
+  top: 62px;
+  right: -22px;
+  z-index: 2;
+  background: url('../images/arrow.png') no-repeat;
+}
+#content .form-sitemap .row {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+#content .form-sitemap form label {
+  width: 100%;
+  color: #606060;
+  font-size: 15px;
+}
+#content .form-sitemap form input.domain,
+#content .form-sitemap form select {
+  width: 100%;
+  border: 1px solid #fb9a28;
+  padding: 10px 5px;
+  margin-top: 10px;
+}
+#content .form-sitemap form input[type='checkbox'] {
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+}
+#content .form-sitemap form .input-checkbox {
+  width: 26px;
+  height: 23px;
+  display: inline-block;
+  background: url('../images/checkbox.png') no-repeat bottom left;
+  margin-right: 5px;
+  margin-bottom: -6px;
+}
+#content .form-sitemap form .checkbox-fake {
+  cursor: pointer;
+}
+#content .form-sitemap form .input-checkbox-checked {
+  background: url('../images/checkbox.png') no-repeat top left;
+}
+#footer {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: #ffffff;
+  padding: 20px 0;
 }

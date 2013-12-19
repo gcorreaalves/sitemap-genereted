@@ -2533,7 +2533,7 @@ fieldset[disabled] .btn-success.active {
 
 .btn-info {
   color: #ffffff;
-  background-color: #5bc0de;
+  background-color: #1cc3cd;
   border-color: #46b8da;
 }
 
@@ -2543,7 +2543,7 @@ fieldset[disabled] .btn-success.active {
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
   color: #ffffff;
-  background-color: #39b3d7;
+  background-color: #1cc3cd;
   border-color: #269abc;
 }
 

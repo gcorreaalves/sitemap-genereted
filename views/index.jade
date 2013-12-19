@@ -8,39 +8,48 @@ block content
 
   h3 Como usar
   div(class="steps")
-    ul(class="row")
+    ul(class="row list-unstyled")
       li(class="col-md-3")
-        h4 Gere seu sitemap
+        h4 1. Gere seu sitemap
         p.
           Você pode gerar  de diversas formas manualmente, utilizando um software ou uma aplicação web como a nossa localizada abaixo.
+        span(class="arrow")
       li(class="col-md-3")
-        h4 Publique no seu site
+        h4 2. Publique no seu site
         p.
           Faça o upload do seu arquivo sitemap para o seu servidor. De preferência para o diretório raiz do seu site.
+        span(class="arrow")
       li(class="col-md-3")
-        h4 Submeta ao Google
+        h4 3. Submeta ao Google
         p.
           Crie uma conta do Google e utilize a Ferramenta Webmaster do Google.
+        span(class="arrow")
       li(class="col-md-3")
-        h4 Realize uma verificação
+        h4 4. Realize uma verificação
 
   h2 Gerador de sitemap
-  form(action="#", method="post")
-    div(class="row")
-      div(class="col-md-6")
-        label Insira a URL
-          br
-          input(type="text", name="domain", placeholder="www.domain.com") 
-      div(class="col-md-6")
-        label Frequência de Mudança
-          br
-          select
-            option 1
-            option 2
-    label(for='ciclo') Gerar Ordenado?  
-     input(type="checkbox", name="sort", value="true") 
-    br
-    label(for='ciclo') Segmentar?  
-     input(type="checkbox", name="segmented", value="true") 
-    br
-    input(type="submit", value="Gerar Sitemap")
+  div(class="form-sitemap")
+    form(action="#", method="post")
+      div(class="row")
+        div(class="col-md-6")
+          label Insira a URL
+            br
+            input(type="text", name="domain", placeholder="www.domain.com", class="domain") 
+        div(class="col-md-3")
+          label Frequência de Mudança
+            br
+            select
+              option 1
+              option 2
+      div(class="row")
+        div(class="col-md-2")
+          label(for='ciclo')
+            input(type="checkbox", name="sort", value="true")
+            span(class="checkbox-fake input-checkbox")
+            span(class="checkbox-fake") Ordernar
+        div(class="col-md-2")
+          label(for='ciclo') 
+            input(type="checkbox", name="segmented", value="true")
+            span(class="checkbox-fake input-checkbox")
+            span(class="checkbox-fake") Segmentar
+      input(type="submit", value="Gerar", class="btn btn-info")
