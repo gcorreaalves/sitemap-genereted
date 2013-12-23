@@ -8,9 +8,11 @@ SitemapController = function (seg, lim) {
   this.limited   = lim || 100;
   this.domain    = null;
 };
-SitemapController.prototype.generate = function (domain) {
+SitemapController.prototype.generate = function (domain, segmented, sort) {
 
-  this.domain = domain;
+  this.domain     = domain,
+  this.segmented  = segmented || false,
+  this.sort       = sort || false;
 
   var that    = this,
     crawler    = new Crawler(domain),
@@ -40,7 +42,7 @@ SitemapController.prototype.generate = function (domain) {
 
     sitemap = that.sortURLs(urls);
 
-    if (that.segmented === true) {
+    if (that.segmented) {
       var objSeg = that.segmental(sitemap), objRoot = [], objSiteMap = [];
       console.log(objSeg);   
       for (var key in objSeg){
@@ -66,8 +68,11 @@ SitemapController.prototype.generate = function (domain) {
   });
 };
 SitemapController.prototype.sortURLs = function (urlsVetor) {
-  return urlsVetor.sort();
-  //return urlsVetor;
+  if(this.sort){
+    return urlsVetor.sort();
+  }else{
+    return urlsVetor;
+  }
 };
 SitemapController.prototype.segmental = function (urlsVetor) {
   var directory      = "",

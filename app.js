@@ -32,9 +32,11 @@ app.get('/', routes.index);
 app.post('/',  function (req, res) {
 
   var domain  = req.param('domain'),
+    segmented = req.param('segmented'),
+    sort      = req.param('sort'),
     sitemap = new Sitemap(true);
 
-  sitemap.generate(domain);
+  sitemap.generate(domain, segmented, sort);
 
   res.render('index.jade', {
     title      : domain
