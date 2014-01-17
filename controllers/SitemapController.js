@@ -1,7 +1,8 @@
 var Crawler    = require("simplecrawler").Crawler,
   xmlbuild     = require('xmlbuilder'),
   fs           = require('fs'),
-  mkdirp       = require('mkdirp');
+  mkdirp       = require('mkdirp'),
+  Zip          = new require('node-zip')();
 
 SitemapController = function (seg, lim) {
   this.segmented = seg || false;
@@ -151,11 +152,15 @@ SitemapController.prototype.OutputSiteMap = function (sitemapXML, fileName) {
     if (err) {
       console.error(err);
     } else {
+        Zip.file("sitemap" + finalFileName + ".xml", sitemapXML);
+        var data = Zip.generate({base64:false,compression:'DEFLATE'});
+        fs.writeFile(fullpath + '/' + 'sitemap.zip', data, 'binary');
+        console.log("The file zip was saved!");
       fs.writeFile(fullpath + '/' + "sitemap" + finalFileName + ".xml", sitemapXML, function (err) {
         if (err) {
           console.log(err);
-        } else {
-          console.log("The file was saved!");
+        } else {                     
+          console.log("The file zip was saved!");
         }
       });
     }
@@ -163,3 +168,4 @@ SitemapController.prototype.OutputSiteMap = function (sitemapXML, fileName) {
 };
 
 exports.SitemapController = SitemapController;
+
