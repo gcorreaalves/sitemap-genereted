@@ -11,6 +11,11 @@
     "less-middleware": "*",
     "grunt": "~0.4.2",
     "grunt-contrib-less": "~0.8.3",
-    "grunt-contrib-watch": "~0.5.3"
+    "grunt-contrib-watch": "~0.5.3",
+    "node-zip": "~1.0.1"
+  },
+  "devDependencies": {
+    "grunt-concurrent": "~0.4.3",
+    "grunt-nodemon": "~0.1.2"
   }
 }

@@ -8,64 +8,90 @@ SitemapController = function (seg, lim) {
   this.limited   = lim || 100;
   this.domain    = null;
 };
-SitemapController.prototype.generate = function (domain, segmented, sort) {
+SitemapController.prototype.verifyURL = function (url) {  
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  if(!pattern.test(url)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+SitemapController.prototype.generate = function (domain, segmented, sort, callback) {
 
   this.domain     = domain,
   this.segmented  = segmented || false,
   this.sort       = sort || false;
 
-  var that    = this,
-    crawler    = new Crawler(domain),
-    urls       = [],
-    sitemap    = [],
-    siteMapXML = "";
+  var result = {};
 
-  crawler.supportedMimeTypes = [
-    /^text\//i
-  ];
-  crawler.scanSubdomains = false;
-  crawler.ignoreWWWDomain = true;
-  crawler.cache = true;
-  crawler.initialProtocol = 'http';
-  crawler.maxConcurrency = 20;
-  crawler.interval = 1;
+  if(this.verifyURL(this.domain)){
 
-  crawler.on("fetchcomplete", function (queueItem, responseBuffer, response) {
-    if (queueItem.stateData.contentType.indexOf("text/html") != -1 && (queueItem.domain == crawler.domain)) {
-      urls.push(queueItem.url);
-    }
-  });
-  crawler.start();
+    var that    = this,
+      crawler    = new Crawler(domain),
+      urls       = [],
+      sitemap    = [],
+      siteMapXML = "";
 
-  crawler.on("complete", function () {
-    console.log(urls.length + " urls found!");
+    crawler.supportedMimeTypes = [
+      /^text\//i
+    ];
+    crawler.scanSubdomains = false;
+    crawler.ignoreWWWDomain = true;
+    crawler.cache = true;
+    crawler.initialProtocol = 'http';
+    crawler.maxConcurrency = 20;
+    crawler.interval = 1;
 
-    sitemap = that.sortURLs(urls);
-
-    if (that.segmented) {
-      var objSeg = that.segmental(sitemap), objRoot = [], objSiteMap = [];
-      console.log(objSeg);   
-      for (var key in objSeg){
-        if (objSeg[key].length >= 2) {
-          siteMapXML = that.BuildXML(objSeg[key]); 
-          that.OutputSiteMap(siteMapXML, key);
-          objSiteMap.push("sitemap-" + key + ".xml");
-        }else{
-          objRoot.push(objSeg[key][0]);
-        }                
+    crawler.on("fetchcomplete", function (queueItem, responseBuffer, response) {
+      if (queueItem.stateData.contentType.indexOf("text/html") != -1 && (queueItem.domain == crawler.domain)) {
+        urls.push(queueItem.url);
       }
-      siteMapXML = that.BuildXML(objRoot);  
-      that.OutputSiteMap(siteMapXML, null);
-      objSiteMap.push("sitemap.xml");
+    });
+    crawler.start();
 
-      siteMapXML = that.BuildXML(objSiteMap); 
-      that.OutputSiteMap(siteMapXML, "index");      
-    } else {
-      siteMapXML = that.BuildXML(sitemap);
-      that.OutputSiteMap(siteMapXML, null);
-    }
+    crawler.on("complete", function () {
+      sitemap = that.sortURLs(urls);
+      if (that.segmented) {
+        var objSeg = that.segmental(sitemap), objRoot = [], objSiteMap = [];
+        console.log(objSeg);   
+        for (var key in objSeg){
+          if (objSeg[key].length >= 2) {
+            siteMapXML = that.BuildXML(objSeg[key]); 
+            that.OutputSiteMap(siteMapXML, key);
+            objSiteMap.push("sitemap-" + key + ".xml");
+          }else{
+            objRoot.push(objSeg[key][0]);
+          }                
+        }
+        siteMapXML = that.BuildXML(objRoot);  
+        that.OutputSiteMap(siteMapXML, null);
+        objSiteMap.push("sitemap.xml");
 
-  });
+        siteMapXML = that.BuildXML(objSiteMap); 
+        that.OutputSiteMap(siteMapXML, "index");      
+      } else {
+        siteMapXML = that.BuildXML(sitemap);
+        that.OutputSiteMap(siteMapXML, null);
+      }      
+      result.class = "alert-success";
+      result.msg = urls.length + " urls encontrada!";
+      if(this.segmented){
+        result.url = "download/" + that.domain + "/sitemap.zip";
+      }else{
+        result.url = "download/" + that.domain + "/sitemap.xml";
+      }
+      callback(result);
+    });
+  }else{
+    result.class = "alert-danger";
+    result.msg = "URL inválida";
+    callback(result);
+  }
 };
 SitemapController.prototype.sortURLs = function (urlsVetor) {
   if(this.sort){

@@ -34,13 +34,18 @@ app.post('/',  function (req, res) {
   var domain  = req.param('domain'),
     segmented = req.param('segmented'),
     sort      = req.param('sort'),
-    sitemap = new Sitemap(true);
+    sitemap = new Sitemap(true),
+    result;
 
-  sitemap.generate(domain, segmented, sort);
-
-  res.render('index.jade', {
-    title      : domain
+  result = sitemap.generate(domain, segmented, sort, function(result){
+    console.log(result);
+    res.render('index.jade', {
+      title       : domain,
+      finalResult : result
+    });  
   });
+
+  
 });
 
 app.get('/download/:domain/sitemap.xml', function (req, res) {

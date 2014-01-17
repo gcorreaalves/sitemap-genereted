@@ -5,6 +5,7 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/components/bootstrap-assets/css/bootstrap.css')    
     script(src="/components/jquery/jquery.min.js")  
+    script(src="/components/bootstrap-assets/js/alert.js")  
     
     script(type='text/javascript').
       $(function() { 
@@ -15,7 +16,10 @@ html
             
             _parent.find('.input-checkbox').toggleClass('input-checkbox-checked');
             _checkbox.attr("checked", !_checkbox.attr("checked"));
-        })
+        });
+        $('.generate').click(function(){
+            $('.loading').show();
+        });
       })
 
   body

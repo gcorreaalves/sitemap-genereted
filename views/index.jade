@@ -28,6 +28,21 @@ block content
         h4 4. Realize uma verificação
 
   h2 Gerador de sitemap
+  if finalResult
+    div(class=finalResult.class + " alert")
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      p.msg= finalResult.msg
+      if finalResult.url
+        p.url
+          a(href=finalResult.url).
+            Baixar o arquivo
+
+  div(class="loading", style="display:none")
+    p
+      b Gerando sitemap
+    div(class="progress progress-striped active")
+      div(class="progress-bar", role="progressbar", aria-valuenow="100", aria-valuemin="0", aria-valuemax="100", style="width: 100%")
+  
   div(class="form-sitemap")
     form(action="#", method="post")
       div(class="row")
@@ -43,13 +58,13 @@ block content
               option 2
       div(class="row")
         div(class="col-md-2")
-          label(for='ciclo')
+          label(for='sort')
             input(type="checkbox", name="sort", value="true")
             span(class="checkbox-fake input-checkbox")
             span(class="checkbox-fake") Ordernar
         div(class="col-md-2")
-          label(for='ciclo') 
+          label(for='seg') 
             input(type="checkbox", name="segmented", value="true")
             span(class="checkbox-fake input-checkbox")
             span(class="checkbox-fake") Segmentar
-      input(type="submit", value="Gerar", class="btn btn-info")
+      input(type="submit", value="Gerar", class="btn btn-info generate")
