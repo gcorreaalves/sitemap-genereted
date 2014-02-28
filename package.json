@@ -8,14 +8,17 @@
   "dependencies": {
     "express": "3.2.6",
     "jade": "*",
+    "simplecrawler": "~0.3.6",
+    "xmlbuilder": "~2.1.0",
+    "mkdirp": "~0.3.5"
+  },
+  "devDependencies": {
+    "grunt-concurrent": "~0.4.3",
+    "grunt-nodemon": "~0.1.2",
     "less-middleware": "*",
     "grunt": "~0.4.2",
     "grunt-contrib-less": "~0.8.3",
     "grunt-contrib-watch": "~0.5.3",
     "node-zip": "~1.0.1"
-  },
-  "devDependencies": {
-    "grunt-concurrent": "~0.4.3",
-    "grunt-nodemon": "~0.1.2"
   }
 }
