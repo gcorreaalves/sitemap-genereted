@@ -130,8 +130,8 @@ SitemapController.prototype.segmental = function (urlsVetor) {
 };
 SitemapController.prototype.BuildXML = function (urlsVetor) {
   var xmlFileOutput = '<?xml version="1.0" encoding="UTF-8"?>\n',
-    doc = xmlbuild.create(),
-    node = doc.begin('urlset').att('xmlns', 'http://www.google.com/schemas/sitemap/0.90');
+    doc = xmlbuild.create('urlset').att('xmlns', 'http://www.google.com/schemas/sitemap/0.90'),
+    node = doc;
 
   var i  = null,
     size = 0;
